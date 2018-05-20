@@ -8,8 +8,6 @@ assumed to be small enough to use uint32,
 and other forced dtypes
 '''
 
-import contextlib
-import os
 import numpy as np
 import pandas as pd
 import sqlite3
@@ -35,11 +33,6 @@ BINS_PRSMA50 = np.array([0.90, 0.95, 0.98, 1.0, 1.02, 1.05, 1.1])
 
 MULT_PRSMA200 = 1000000
 BINS_PRSMA200 = np.array([0.70, 0.90, 0.95, 1.05, 1.1, 1.3])
-
-
-## ADD CONSIDRATION OF WHERE THE OPEN FOR THE NEXT DAY LIES COMPARED TO TODAY'S CLOSE
-## ALSO ITS OKAY FOR LEFTMOST BIN TO BE ACCESSIBLE, CLEAN THIS UP
-
 
 
 def get_data(sym_list, upper_lim):
@@ -125,7 +118,6 @@ def get_data(sym_list, upper_lim):
             volsma50_block = []
             sma200_block = []
 
-
     else:
         # for when the loop exits
         if len(cl_block) > 0:
@@ -137,8 +129,6 @@ def get_data(sym_list, upper_lim):
             volsma50 = volsma50.join(volsma50_block, how='left')
             sma200 = sma200.join(sma200_block, how='left')
             del hi_block, lo_block, cl_block, vol_block, sma50_block, volsma50_block, sma200_block, ctr
-
-
 
     price_hist_conn.close()
     return hi, lo, cl, vol, sma50, volsma50, sma200, mkt
@@ -458,7 +448,7 @@ def class_labels_2xRisk_strategy():
             label = None
             changes = 1. * lo[i+1: i+63] / cl[i]
             highs = hi[i+1: i+63]
-            lows = lo[i+1: i+63]
+            #lows = lo[i+1: i+63]
             stopped_out_idx = np.where(changes <= (1-stop_loss))[0]
             if stopped_out_idx.size > 0:
                 stopped_out_idx = stopped_out_idx[0]
