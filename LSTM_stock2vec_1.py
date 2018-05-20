@@ -164,8 +164,8 @@ model.add(Dense(32,
                 activity_regularizer=regularizers.l2(0.005)))
 model.add(Dense(NUM_LABELS, activation='softmax'))
 
-#model.compile(loss='categorical_crossentropy', optimizer='adam')
-model.compile(loss='mean_squared_logarithmic_error', optimizer='adam')
+model.compile(loss='categorical_crossentropy', optimizer='adam')
+#model.compile(loss='mean_squared_logarithmic_error', optimizer='adam')
 
 # save best-performing model parameters during training
 chk = ModelCheckpoint(filepath='LSTM_stock2vec_1.hdf5',
